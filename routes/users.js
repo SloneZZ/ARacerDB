@@ -12,7 +12,7 @@ router.post("/login", (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     // Find a user via email
-    User.findOne({ email })
+    userModel.findOne({ email })
         .then(user => {
             // Check if the user exists
             if (!user) {
@@ -25,7 +25,7 @@ router.post("/login", (req, res, next) => {
                     let verifyOptions = {
                         issuer: 'ARacer',
                         subject: user.email,
-                        audience: '', // ARacer URL
+                        audience: 'https://aracer-db.herokuapp.com/', // ARacer URL
                         expiresIn: "12h",
                         algorithm: "RS256" // Does this matter?
                     }
@@ -85,14 +85,14 @@ router.get("/allUsers", (req, res, next) => { //R
 })
 
 router.post("/updateUser", (req, res, next) => {
-    var firstname = req.body.firstname
-    var lastname = req.body.lastname
-    var email = req.body.email
-    var password = req.body.password // hash?
-    var updateFirstname = req.body.updateFirstname
-    var updateLastname = req.body.updateLastname
-    var updateEmail = req.body.updateEmail
-    var updatePassword = req.body.updatePassword
+    let firstname = req.body.firstname
+    let lastname = req.body.lastname
+    let email = req.body.email
+    let password = req.body.password // hash?
+    let updateFirstname = req.body.updateFirstname
+    let updateLastname = req.body.updateLastname
+    let updateEmail = req.body.updateEmail
+    let updatePassword = req.body.updatePassword
 
     bcrypt.hash(updatePassword, saltRounds,  (error, hash) => {
         if (err) throw err
@@ -110,10 +110,10 @@ router.post("/updateUser", (req, res, next) => {
 })
 
 router.delete("/deleteUser", (req, res, next) => { //D
-    var firstname = req.body.firstname
-    var lastname = req.body.lastname
-    var email = req.body.email
-    var password = req.body.password // hash?
+    let firstname = req.body.firstname
+    let lastname = req.body.lastname
+    let email = req.body.email
+    let password = req.body.password // hash?
 
     res.send(userModel.findOneAndDelete({ firstname, lastname, email, password }))
         .then(user => {
